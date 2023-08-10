@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from 'components/Button/Button';
 import { getImages } from 'api/imagesApi';
+import { Searchbar } from './Searchbar/Searchbar';
 
 export const App = () => {
   const [searchText, setSearchText] = useState('');
