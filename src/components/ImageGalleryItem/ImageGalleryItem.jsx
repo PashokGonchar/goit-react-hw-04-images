@@ -1,56 +1,94 @@
 import { Loader } from 'components/Loader/Loader';
 import Modal from 'components/Modal/Modal';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class ImageGalleryItem extends Component {
-  state = {
-    isModalOpen: false,
-    selectedImageUrl: '',
+export const ImageGalleryItem = ({ isLoading, images }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState('');
+
+  const handleImageClick = imageUrl => {
+    setIsModalOpen(true);
+    setSelectedImageUrl(imageUrl);
   };
 
-  handleImageClick = imageUrl => {
-    this.setState({
-      isModalOpen: true,
-      selectedImageUrl: imageUrl,
-    });
+  const handleCloseModal = () => {
+    setIsModalOpen(true);
   };
 
-  handleCloseModal = () => {
-    this.setState({
-      isModalOpen: false,
-    });
-  };
+  return (
+    <>
+      {isLoading && <Loader />}
+      {images &&
+        images.map(el => {
+          return (
+            <li
+              style={{
+                listStyle: 'none',
+              }}
+              key={el.id}
+              id={el.id}
+              onClick={() => handleImageClick(el.largeImageURL)}
+            >
+              <img src={el.webformatURL} alt={el.tags} />
+            </li>
+          );
+        })}
 
+      {isModalOpen && (
+        <Modal imageUrl={selectedImageUrl} onClose={handleCloseModal} />
+      )}
+    </>
+  );
+};
 
-  render() {
-    const { isLoading, images } = this.props;
-    const { isModalOpen, selectedImageUrl } = this.state;
+// class ImageGalleryItem extends Component {
+//   state = {
+//     isModalOpen: false,
+//     selectedImageUrl: '',
+//   };
 
-    return (
-      <>
-        {isLoading && <Loader />}
-        {images &&
-          images.map(el => {
-            return (
-              <li
-                style={{
-                  listStyle: 'none',
-                }}
-                key={el.id}
-                id={el.id}
-                onClick={() => this.handleImageClick(el.largeImageURL)}
-              >
-                <img src={el.webformatURL} alt={el.tags} />
-              </li>
-            );
-          })}
+//   handleImageClick = imageUrl => {
+//     this.setState({
+//       isModalOpen: true,
+//       selectedImageUrl: imageUrl,
+//     });
+//   };
 
-        {isModalOpen && (
-          <Modal imageUrl={selectedImageUrl} onClose={this.handleCloseModal} />
-        )}
-      </>
-    );
-  }
-}
+//   handleCloseModal = () => {
+//     this.setState({
+//       isModalOpen: false,
+//     });
+//   };
 
-export default ImageGalleryItem;
+//   render() {
+//     const { isLoading, images } = this.props;
+//     const { isModalOpen, selectedImageUrl } = this.state;
+
+//     return (
+//       <>
+//         {isLoading && <Loader />}
+//         {images &&
+//           images.map(el => {
+//             return (
+//               <li
+//                 style={{
+//                   listStyle: 'none',
+//                 }}
+//                 key={el.id}
+//                 id={el.id}
+//                 onClick={() => this.handleImageClick(el.largeImageURL)}
+//               >
+//                 <img src={el.webformatURL} alt={el.tags} />
+//               </li>
+//             );
+//           })}
+
+//         {isModalOpen && (
+//           <Modal imageUrl={selectedImageUrl} onClose={this.handleCloseModal} />
+//         )}
+//       </>
+//     );
+//   }
+// }
+
+// export default ImageGalleryItem;
