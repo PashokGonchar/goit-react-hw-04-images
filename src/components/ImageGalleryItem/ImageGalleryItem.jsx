@@ -12,7 +12,7 @@ export const ImageGalleryItem = ({ isLoading, images }) => {
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(true);
+    setIsModalOpen(false);
   };
 
   return (
